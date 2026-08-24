@@ -1,0 +1,42 @@
+TEST IMAGE GUIDE
+
+Every placeholder image has a unique filename and the code uses the same filename.
+To replace an image, you can keep the same filename or change its path in the code.
+
+test-after-01.jpg
+test-after-02.jpg
+test-after-03.jpg
+test-after-04.jpg
+test-bathroom-remodel-01.jpg
+test-bathroom-remodel-02.jpg
+test-bathroom-remodel-03.jpg
+test-bathroom-remodel-04.jpg
+test-before-01.jpg
+test-before-02.jpg
+test-before-03.jpg
+test-before-04.jpg
+test-cabinets-countertops-01.jpg
+test-cabinets-countertops-02.jpg
+test-cabinets-countertops-03.jpg
+test-cabinets-countertops-04.jpg
+test-header-logo.jpg
+test-hero-background.jpg
+test-led-lighting-01.jpg
+test-led-lighting-02.jpg
+test-led-lighting-03.jpg
+test-main-logo.jpg
+test-molding-and-trim-01.jpg
+test-molding-and-trim-02.jpg
+test-molding-and-trim-03.jpg
+test-outdoor-kitchen-01.jpg
+test-outdoor-kitchen-02.jpg
+test-outdoor-kitchen-03.jpg
+test-outdoor-kitchen-04.jpg
+test-security-cameras-01.jpg
+test-security-cameras-02.jpg
+test-service-bathroom.jpg
+test-service-cabinets.jpg
+test-service-countertops.jpg
+test-service-flooring.jpg
+test-service-kitchen.jpg
+test-service-painting.jpg

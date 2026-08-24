@@ -1,0 +1,13 @@
+REFERENCE COLOR UPDATE
+
+Only colors were changed. Layout, box organization, controls, and component structure were preserved.
+
+Palette:
+- Main background: #070C10
+- Card / surface: #0D151C
+- Main orange accent: #E84A22
+- Bright orange accent: #FF5A2A
+- Main text: #FFFFFF
+- Muted text: #D7DEE5
+
+The same palette is configured as the default in Admin > Theme.

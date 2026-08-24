@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Admin</title>
+  <link rel="stylesheet" href="admin.css?v=20260822-no-storage-images">
+</head>
+<body>
+  <div id="loginView" class="login-shell">
+    <div class="login-card">
+      <div class="brand">ADMIN</div>
+      <h1>Website Admin</h1>
+      <p>Manage contact information, logos, hero images, services, projects and catalogue photos without editing code.</p>
+      <div id="googleButton"></div>
+      <button id="previewLogin" class="btn primary" type="button">Open Admin Preview</button>
+      <p class="small" id="loginNote">Local administrator mode. Example administrator email: <code>admin@example.com</code>. No Firebase account is connected.</p>
+    </div>
+  </div>
+
+  <div id="adminView" class="admin-shell hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand">WEBSITE <span>ADMIN</span></div>
+      <nav id="adminNav">
+        <button data-target="company" class="active">Company</button>
+        <button data-target="hero">Hero & Logos</button>
+        <button data-target="theme">Theme</button>
+        <button data-target="seo">SEO & Marketing</button>
+        <button data-target="production">Local Settings</button>
+        <button data-target="traffic">Traffic Counters</button>
+        <button data-target="services">Services</button>
+        <button data-target="projects">Projects</button>
+        <button data-target="trust">Why Choose Us</button>
+        <button data-target="process">Process</button>
+        <button data-target="testimonials">Testimonials</button>
+        <button data-target="faq">FAQ</button>
+        <button data-target="catalogue">Catalogue</button>
+        <button data-target="payments">Payments</button>
+        <button data-target="footer">Footer</button>
+      </nav>
+      <a class="btn ghost" href="index.html" target="_blank">Open Website</a>
+      <button class="btn ghost" id="logoutBtn" type="button">Sign Out</button>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div><h1>Website Admin</h1><p id="saveStatus">Changes are saved in this browser.</p></div>
+        <div class="top-actions"><button class="btn primary" id="publishBtn" type="button">Save Local Changes</button><button class="btn" id="exportBtn">Export Settings</button><label class="btn file-label">Import Settings<input id="importInput" type="file" accept="application/json"></label><button class="btn danger" id="resetBtn">Reset</button></div>
+      </header>
+
+      <section class="panel active" data-panel="company">
+        <h2>Company Information</h2><div class="form-grid">
+          <label>Phone display<input data-path="company.phoneDisplay"></label>
+          <label>Phone digits (country code included)<input data-path="company.phoneDigits"></label>
+          <label>WhatsApp digits<input data-path="company.whatsappDigits"></label>
+          <label>Gmail / Email<input type="email" data-path="company.email"></label>
+          <label>Facebook URL<input data-path="company.facebook"></label>
+          <label>Instagram URL<input data-path="company.instagram"></label>
+          <label>Service area<input data-path="company.serviceArea"></label>
+          <label>Sticky contact bar<select data-path="stickyCta.enabled"><option value="yes">Show</option><option value="no">Hide</option></select></label>
+          <label>Estimate button label<input data-path="stickyCta.estimateLabel"></label>
+          <label>Call button label<input data-path="stickyCta.callLabel"></label>
+          <label>WhatsApp button label<input data-path="stickyCta.whatsappLabel"></label>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="hero">
+        <h2>Hero & Logos</h2>
+        <div class="form-grid"><label>Small heading<input data-path="hero.small"></label><label>Button text<input data-path="hero.cta"></label><label class="full">Hero heading (HTML allowed)<textarea rows="3" data-path="hero.messageHtml"></textarea></label><label class="full">Description<textarea rows="3" data-path="hero.description"></textarea></label></div>
+        <div class="image-grid">
+          <div class="image-editor" data-image-key="headerLogo"><h3>Header Logo</h3><img><p class="small image-folder-note">Managed from the <code>images</code> folder in the project.</p></div>
+          <div class="image-editor" data-image-key="heroBackground"><h3>Left Hero Image</h3><img><p class="small image-folder-note">Managed from the <code>images</code> folder in the project.</p><p class="small">The website keeps the same dark/faded effect automatically.</p></div>
+          <div class="image-editor" data-image-key="mainLogo"><h3>Right Main Logo</h3><img><p class="small image-folder-note">Managed from the <code>images</code> folder in the project.</p></div>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="theme">
+        <h2>Theme & Visual Effects</h2>
+        <p class="small">Control the public website colors, borders, glow sweep and optional full-page background image. Changes are saved with the rest of the website settings.</p>
+        <div class="theme-admin-group">
+          <h3>Color Theme</h3>
+          <div class="form-grid">
+            <label>Theme preset
+              <select id="themePreset" data-path="theme.preset">
+                <option value="original">Original Gold</option>
+                <option value="champagne">Champagne Gold</option>
+                <option value="copper">Copper</option>
+                <option value="silver">Silver / Graphite</option>
+                <option value="blue">Blue Steel</option>
+                <option value="emerald">Emerald</option>
+                <option value="burgundy">Burgundy</option>
+                <option value="custom">Reference Dark / Orange</option>
+              </select>
+            </label>
+            <label>Background color<input type="color" data-path="theme.background"></label>
+            <label>Surface / card color<input type="color" data-path="theme.surface"></label>
+            <label>Main text color<input type="color" data-path="theme.text"></label>
+            <label>Muted text color<input type="color" data-path="theme.muted"></label>
+            <label>Accent dark<input type="color" data-path="theme.accentDark"></label>
+            <label>Main accent<input type="color" data-path="theme.accent"></label>
+            <label>Accent bright<input type="color" data-path="theme.accentBright"></label>
+            <label>Accent light<input type="color" data-path="theme.accentLight"></label>
+            <label>Accent soft<input type="color" data-path="theme.accentSoft"></label>
+            <label>Lines / borders<input type="color" data-path="theme.lineColor"></label>
+          </div>
+        </div>
+        <div class="theme-admin-group">
+          <h3>Moving Light</h3>
+          <div class="form-grid">
+            <label>Moving light effect
+              <select data-path="theme.glowEnabled"><option value="yes">On</option><option value="no">Off</option></select>
+            </label>
+            <label>Light / glow color<input type="color" data-path="theme.glowColor"></label>
+            <label>Animation speed (seconds)<input type="number" min="2" max="20" step="0.5" data-path="theme.glowDuration"></label>
+          </div>
+          <p class="small">This controls the light that travels across cards, borders and highlighted interface elements.</p>
+        </div>
+        <div class="theme-admin-group">
+          <h3>Website Background</h3>
+          <div class="form-grid">
+            <label>Background image
+              <select data-path="theme.backgroundImageEnabled"><option value="no">Off — use color</option><option value="yes">On — use image</option></select>
+            </label>
+            <label>Dark overlay opacity (0–100)<input type="number" min="0" max="100" step="5" data-path="theme.backgroundOverlay"></label>
+          </div>
+          <div class="image-grid theme-image-grid">
+            <div class="image-editor" data-image-key="siteBackground"><h3>Full Website Background Image</h3><img alt="Website background preview"><p class="small image-folder-note">Managed from the <code>images</code> folder in the project.</p><p class="small">The image is shown behind the public website with a dark overlay so text remains readable.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="seo">
+        <h2>SEO & Marketing</h2>
+        <p class="small">These settings control how the site appears in Google and social sharing. Analytics is loaded only when you add a valid Google Analytics Measurement ID.</p>
+        <div class="form-grid">
+          <label>Site title<input data-path="seo.siteTitle" placeholder="JMX Remodeling LLC | Chicago Remodeling Contractor"></label>
+          <label>Canonical website URL<input data-path="seo.canonicalUrl" placeholder="https://www.yourdomain.com/"></label>
+          <label class="full">Meta description<textarea rows="3" data-path="seo.description"></textarea></label>
+          <label class="full">Keywords<input data-path="seo.keywords" placeholder="remodeling Chicago, kitchen remodeling, bathroom remodeling"></label>
+          <label>Social share image URL<input data-path="seo.socialImage" placeholder="images/test-main-logo.jpg"></label>
+          <label>Google Search Console verification<input data-path="seo.searchConsoleVerification" placeholder="Verification token only"></label>
+          <label>Google Business Profile URL<input data-path="seo.googleBusinessUrl" placeholder="https://g.page/..."></label>
+          <label>Google review URL<input data-path="seo.googleReviewUrl" placeholder="Direct link for customers to leave a review"></label>
+        </div>
+        <h3 class="editor-subtitle">Structured Business Data</h3>
+        <div class="form-grid">
+          <label>Business name<input data-path="seo.businessName"></label>
+          <label>Schema business type<input data-path="seo.businessType" placeholder="HomeAndConstructionBusiness"></label>
+          <label>Price range<input data-path="seo.priceRange" placeholder="$$"></label>
+          <label>Street address<input data-path="seo.streetAddress"></label>
+          <label>City<input data-path="seo.addressLocality"></label>
+          <label>State<input data-path="seo.addressRegion"></label>
+          <label>ZIP code<input data-path="seo.postalCode"></label>
+          <label>Country code<input data-path="seo.country" placeholder="US"></label>
+        </div>
+        <h3 class="editor-subtitle">Google Analytics</h3>
+        <div class="form-grid">
+          <label>Analytics<select data-path="analytics.enabled"><option value="no">Off</option><option value="yes">On</option></select></label>
+          <label>Measurement ID<input data-path="analytics.measurementId" placeholder="G-XXXXXXXXXX"></label>
+          <label>Track button clicks<select data-path="analytics.trackClicks"><option value="yes">On</option><option value="no">Off</option></select></label>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="production">
+        <h2>Local Settings</h2>
+        <p class="small">This clean build stores administrator edits locally in this browser. No Firebase credentials are included.</p>
+        <div class="status-card">
+          <h3>Cloud status</h3>
+          <p id="cloudStatus">Checking configuration…</p>
+          <div class="top-actions">
+            <button class="btn" type="button" id="syncCloudBtn">Load from Cloud</button>
+            <button class="btn primary" type="button" id="publishCloudBtn">Publish Now</button>
+          </div>
+        </div>
+        <div class="repeat-card">
+          <h3>What becomes cloud-powered</h3>
+          <p>Administrator mode is local-only in this clean build. Use Export Settings to make a backup of your edits.</p>
+          
+        </div>
+      </section>
+
+      <section class="panel" data-panel="traffic">
+        <h2>Traffic Counters</h2>
+        <p class="small">Counts page visits / page loads. If the same person returns or refreshes the website, it counts again — exactly as requested.</p>
+        <div class="traffic-stats-grid">
+          <article class="traffic-stat-card">
+            <span class="traffic-stat-label">CURRENT MONTH</span>
+            <strong id="monthlyTrafficCount">0</strong>
+            <small id="monthlyTrafficLabel">This month</small>
+          </article>
+          <article class="traffic-stat-card">
+            <span class="traffic-stat-label">ALL-TIME TOTAL</span>
+            <strong id="globalTrafficCount">0</strong>
+            <small>Never resets</small>
+          </article>
+        </div>
+        <div class="status-card">
+          <h3>How it works</h3>
+          <p>The monthly counter automatically starts a new count on the first day of each month using the America/Chicago timezone. The all-time counter keeps increasing permanently.</p>
+          <p id="trafficModeNote">Traffic counters in this clean build are stored only in this browser.</p>
+          <button class="btn" id="refreshTrafficBtn" type="button">Refresh Counters</button>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="services"><h2>Services</h2><div id="servicesEditor" class="repeat-grid"></div></section>
+      <section class="panel" data-panel="projects"><h2>Before & After Projects</h2><div id="projectsEditor" class="image-grid"></div></section>
+      <section class="panel" data-panel="trust"><h2>Why Choose Us / Trust</h2><div class="form-grid"><label>Small heading<input data-path="trust.eyebrow"></label><label>Title<input data-path="trust.title"></label><label class="full">Introduction<textarea rows="3" data-path="trust.intro"></textarea></label><label>Credentials title<input data-path="trust.credentialsTitle"></label><label class="full">Licenses / insurance / warranty / experience text<textarea rows="4" data-path="trust.credentialsText"></textarea></label></div><h3 class="editor-subtitle">Reasons to choose JMX</h3><div id="trustEditor" class="repeat-grid"></div></section>
+      <section class="panel" data-panel="process"><h2>Remodeling Process</h2><div class="form-grid"><label>Small heading<input data-path="process.eyebrow"></label><label>Title<input data-path="process.title"></label></div><h3 class="editor-subtitle">Process steps</h3><div id="processEditor" class="repeat-grid"></div></section>
+      <section class="panel" data-panel="testimonials"><h2>Testimonials</h2><p class="small">Use only real customer reviews and names you have permission to publish.</p><div class="form-grid"><label>Small heading<input data-path="testimonials.eyebrow"></label><label>Title<input data-path="testimonials.title"></label></div><div id="testimonialsEditor" class="repeat-grid editor-gap"></div></section>
+      <section class="panel" data-panel="faq"><h2>Frequently Asked Questions</h2><div class="form-grid"><label>Small heading<input data-path="faq.eyebrow"></label><label>Title<input data-path="faq.title"></label></div><div id="faqEditor" class="repeat-grid editor-gap"></div></section>
+      <section class="panel" data-panel="catalogue"><h2>Catalogue — 20 Slots</h2><p>Change each title and photo. The first 3 stay visible; the remaining 17 open with MORE.</p><div id="catalogueEditor" class="repeat-grid"></div></section>
+      <section class="panel" data-panel="payments">
+        <h2>Payment Methods</h2>
+        <p class="small">Turn each payment method on or off. Use only public payment links here—never enter card numbers, bank passwords, API secret keys or other private credentials.</p>
+        <div class="payment-admin-group">
+          <h3 class="payment-admin-title"><span class="admin-payment-icon paypal-icon" aria-hidden="true">P</span>PayPal</h3>
+          <div class="form-grid">
+            <label>Show PayPal<select data-path="payments.paypalEnabled"><option value="yes">On</option><option value="no">Off</option></select></label>
+            <label>Button label<input data-path="payments.paypalLabel" placeholder="PayPal"></label>
+            <label class="full">PayPal payment URL<input data-path="payments.paypalUrl" placeholder="https://www.paypal.com/paypalme/... or your PayPal payment link"></label>
+          </div>
+        </div>
+        <div class="payment-admin-group">
+          <h3 class="payment-admin-title"><span class="admin-payment-icon zelle-icon" aria-hidden="true">Z</span>Zelle</h3>
+          <div class="form-grid">
+            <label>Show Zelle<select data-path="payments.zelleEnabled"><option value="yes">On</option><option value="no">Off</option></select></label>
+            <label>Button label<input data-path="payments.zelleLabel" placeholder="Zelle"></label>
+            <label>Recipient / business name<input data-path="payments.zelleRecipient" placeholder="JMX Remodeling LLC"></label>
+            <label>Zelle phone or email<input data-path="payments.zelleContact" placeholder="Phone or email registered with Zelle"></label>
+            <label class="full">Zelle / bank-app link (optional)<input data-path="payments.zelleUrl" placeholder="Paste a bank-provided link if you have one; otherwise leave blank"></label>
+          </div>
+        </div>
+        <div class="payment-admin-group">
+          <h3 class="payment-admin-title"><span class="admin-payment-icon card-icon" aria-hidden="true"><span></span></span>Card Payment</h3>
+          <div class="form-grid">
+            <label>Show card payment<select data-path="payments.cardEnabled"><option value="yes">On</option><option value="no">Off</option></select></label>
+            <label>Button label<input data-path="payments.cardLabel" placeholder="Pay by Card"></label>
+            <label class="full">Secure card checkout URL<input data-path="payments.cardUrl" placeholder="Stripe, Square, PayPal Checkout or another secure hosted payment link"></label>
+          </div>
+        </div>
+      </section>
+      <section class="panel" data-panel="footer"><h2>Footer</h2><div class="form-grid"><label>Brand<input data-path="footer.brand"></label><label>Company name<input data-path="footer.companyName"></label><label class="full">Tagline<textarea rows="3" data-path="footer.tagline"></textarea></label></div></section>
+    </main>
+  </div>
+
+  <script src="site-defaults.js?v=20260822-device-sync-preview-final"></script>
+  <script src="admin-config.js?v=20260822-device-sync-preview-final"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="admin.js?v=20260822-no-storage-images"></script>
+</body>
+</html>

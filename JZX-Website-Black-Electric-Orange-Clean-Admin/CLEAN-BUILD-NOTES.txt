@@ -1,0 +1,25 @@
+CLEAN BUILD NOTES
+
+Theme:
+- Background: #050505 (black)
+- Electric orange: #FF6D00 / #FF9800
+- Red: #C00000
+- White: #FFFFFF
+
+Admin:
+- Firebase disabled and Firebase project credentials removed.
+- Google/Firebase login disabled.
+- Local admin button enabled.
+- Example admin email only: admin@example.com
+- Public example contact email: contact@example.com
+- Changes are stored in the browser; Export Settings creates a backup.
+
+Images:
+- Original photos/logos removed.
+- 37 generic test images added.
+- See images/IMAGE-NAME-GUIDE.txt.
+
+Validation:
+- Missing local image references: 0
+- Firebase credential/project remnants: 0
+- JavaScript syntax errors found: 0
