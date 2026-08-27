@@ -17,10 +17,10 @@ const queueCloudSave=()=>{
       data.__meta.publishedAt=Date.now();
       await window.JZXCloud.saveSettings(data);
       localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-      status('Published to cloud.');
+      status('Changes published to Cloud Firestore.');
     }catch(e){
       console.warn(e);
-      status('Saved on this device — cloud sync failed. Use Publish Changes to retry.');
+      status('Cloud publication failed. A local backup was kept; use Publish Changes to retry.');
     }
   },900);
 };
@@ -46,7 +46,7 @@ const save=()=>{
   localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
   const st=$('#saveStatus');
   if(st){
-    st.textContent=cloudOn()?'Saved on this device — syncing to cloud…':'Saved on this device — refresh the website to see changes.';
+    st.textContent=cloudOn()?'Change cached locally; publishing to Cloud Firestore…':'Saved on this device — refresh the website to see changes.';
     st.classList.add('save-flash');
     setTimeout(()=>st.classList.remove('save-flash'),800);
   }
@@ -55,9 +55,10 @@ const save=()=>{
 const fileToData=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(f)});
 let adminCloudLoaded=false;
 const showAdmin=async()=>{
+  if(cloudOn() && !window.JZXCloud.isAuthorizedUser(window.JZXCloud.currentUser())) return;
   $('#loginView').classList.add('hidden');
   $('#adminView').classList.remove('hidden');
-  sessionStorage.setItem(SESSION_KEY,'1');
+  if(!cloudOn()) sessionStorage.setItem(SESSION_KEY,'1');
 
   if(cloudOn() && !adminCloudLoaded){
     adminCloudLoaded=true;
@@ -77,10 +78,12 @@ const showAdmin=async()=>{
         status(localEdited>remotePublished
           ? 'Loaded cloud settings; newer edits on this device are still pending publication.'
           : 'Loaded latest settings from cloud.');
+      }else{
+        status('No cloud settings exist yet. Publish Changes to create the shared configuration.');
       }
     }catch(e){
       console.warn(e);
-      status('Cloud settings could not be loaded; using this device copy.');
+      status('Cloud settings could not be loaded. A local cached copy is being used temporarily.');
     }
   }
 
@@ -93,16 +96,57 @@ const logout=async()=>{sessionStorage.removeItem(SESSION_KEY);try{if(cloudOn())a
 
 function initLogin(){
   const preview=$('#previewLogin');
+  $('#logoutBtn')?.addEventListener('click',logout);
+  const host=$('#googleButton');
+  const note=$('#loginNote');
+
+  if(cloudOn()){
+    try{
+      window.JZXCloud.init();
+      if(host) host.innerHTML=`<p class="small">Authorized administrator: <strong>${cfg.allowedGoogleEmail||''}</strong></p>`;
+      if(note) note.textContent='Sign in with the authorized Google account to load and publish the shared Cloud Firestore configuration.';
+      if(preview){
+        preview.style.display='inline-flex';
+        preview.textContent='Sign in with Google';
+        preview.addEventListener('click',async()=>{
+          preview.disabled=true;
+          if(note) note.textContent='Opening secure Google sign-in…';
+          try{await window.JZXCloud.signIn()}
+          catch(e){console.warn(e);if(note)note.textContent=e.message||'Google sign-in failed.'}
+          finally{preview.disabled=false}
+        });
+      }
+      window.JZXCloud.onAuthStateChanged(async user=>{
+        if(window.JZXCloud.isAuthorizedUser(user)){
+          if(note) note.textContent=`Signed in as ${user.email}.`;
+          await showAdmin();
+        }else{
+          $('#adminView')?.classList.add('hidden');
+          $('#loginView')?.classList.remove('hidden');
+        }
+      });
+      return;
+    }catch(e){
+      console.error(e);
+      if(note) note.textContent=`Firebase could not start: ${e.message}`;
+      if(preview) preview.style.display='none';
+      return;
+    }
+  }
+
+  if(cfg.productionMode){
+    if(note) note.textContent='Cloud mode is required in production, but Firebase is not fully configured.';
+    if(preview) preview.style.display='none';
+    return;
+  }
+
+  if(host) host.innerHTML='<p class="small">Local development mode</p>';
+  if(note) note.textContent='Changes in local development mode stay in this browser.';
   if(preview){
     preview.style.display='inline-flex';
     preview.textContent='Open Local Admin';
     preview.addEventListener('click',showAdmin);
   }
-  $('#logoutBtn')?.addEventListener('click',logout);
-  const host=$('#googleButton');
-  if(host) host.innerHTML='<p class="small">Example admin email: <strong>admin@example.com</strong></p>';
-  const note=$('#loginNote');
-  if(note) note.textContent='Local administrator mode. No Firebase or Google account is connected.';
   if(sessionStorage.getItem(SESSION_KEY)==='1') showAdmin();
 }
 
@@ -345,7 +389,7 @@ async function loadTrafficCounters(){
       monthly.textContent=Number(stats?.monthly||0).toLocaleString();
       global.textContent=Number(stats?.global||0).toLocaleString();
       label.textContent=formatMonthLabel(stats?.monthKey);
-      if(note)note.textContent='Local browser counters.';
+      if(note)note.textContent='Shared Cloud Firestore counters.';
     }else{
       const key=localTrafficMonthKey();
       monthly.textContent=(Number(localStorage.getItem(`jzx-traffic-monthly-v1:${key}`))||0).toLocaleString();
@@ -360,19 +404,47 @@ async function loadTrafficCounters(){
 }
 $('#refreshTrafficBtn')?.addEventListener('click',loadTrafficCounters);
 
-function render(){bindNav();bindSimpleFields();bindThemePreset();bindStaticImageEditors();renderServices();renderProjects();renderTrust();renderProcess();renderTestimonials();renderFaq();renderCatalogue();bindVisibilityUI();const cs=$('#cloudStatus');if(cs)cs.textContent=cloudOn()?'Firebase configured — sign in and Publish Changes to sync all visitors.':'Local preview mode — configure Firebase in admin-config.js for production cloud sync.';}
+function render(){bindNav();bindSimpleFields();bindThemePreset();bindStaticImageEditors();renderServices();renderProjects();renderTrust();renderProcess();renderTestimonials();renderFaq();renderCatalogue();bindVisibilityUI();const cs=$('#cloudStatus');if(cs)cs.textContent=cloudOn()?'Connected to Cloud Firestore. Published changes are shared with the public website and other devices.':'Local preview mode — configure Firebase in admin-config.js for production cloud sync.';}
 
 const publishNow=async()=>{
+  clearTimeout(cloudTimer);
   data.__meta=data.__meta||{};
-  data.__meta.localUpdatedAt=Date.now();
+  const now=Date.now();
+  data.__meta.localUpdatedAt=now;
+  data.__meta.publishedAt=now;
   localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-  status('Saved locally in this browser. Use Export Settings for a backup.');
+  if(!cloudOn()){
+    status('Saved locally in this browser. Use Export Settings for a backup.');
+    return;
+  }
+  const buttons=[$('#publishBtn'),$('#publishCloudBtn')].filter(Boolean);
+  buttons.forEach(button=>button.disabled=true);
+  status('Publishing changes to Cloud Firestore…');
+  try{
+    await window.JZXCloud.saveSettings(data);
+    status('Changes published to Cloud Firestore.');
+  }catch(e){
+    console.error(e);
+    status(`Cloud publication failed: ${e.message||'unknown error'}. A local backup was kept.`);
+  }finally{
+    buttons.forEach(button=>button.disabled=false);
+  }
 };
 $('#publishBtn')?.addEventListener('click',publishNow);$('#publishCloudBtn')?.addEventListener('click',publishNow);
-$('#syncCloudBtn')?.addEventListener('click',()=>alert('Cloud sync is disabled in this clean build. Use Export Settings / Import Settings instead.'));
+$('#syncCloudBtn')?.addEventListener('click',async()=>{
+  if(!cloudOn())return;
+  status('Loading latest settings from Cloud Firestore…');
+  try{
+    const remote=await window.JZXCloud.loadSettings();
+    if(!remote){status('No shared configuration exists in Cloud Firestore yet.');return}
+    data=deepMerge(defaults,remote);
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+    location.reload();
+  }catch(e){console.error(e);status(`Cloud settings could not be loaded: ${e.message||'unknown error'}.`)}
+});
 
 $('#exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='jmx-site-settings.json';a.click();URL.revokeObjectURL(a.href)});
-$('#importInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{data=deepMerge(defaults,JSON.parse(await f.text()));save();location.reload()}catch{alert('Invalid settings file.')}});
-$('#resetBtn').addEventListener('click',async()=>{if(!confirm('Reset all editable settings to the original website defaults? Images in the project images folder will not be deleted.'))return;data=clone(defaults);localStorage.setItem(STORAGE_KEY,JSON.stringify(data));const db=await openDb();await new Promise((res,rej)=>{const r=db.transaction(STORE,'readwrite').objectStore(STORE).clear();r.onsuccess=()=>res();r.onerror=()=>rej(r.error)});if(cloudOn()){try{await window.JZXCloud.saveSettings(data)}catch{}}location.reload()});
+$('#importInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{data=deepMerge(defaults,JSON.parse(await f.text()));await publishNow();location.reload()}catch{alert('Invalid settings file.')}});
+$('#resetBtn').addEventListener('click',async()=>{if(!confirm('Reset all editable settings to the original website defaults? Images in the project images folder will not be deleted.'))return;data=clone(defaults);data.__meta={localUpdatedAt:Date.now(),publishedAt:Date.now()};localStorage.setItem(STORAGE_KEY,JSON.stringify(data));const db=await openDb();await new Promise((res,rej)=>{const r=db.transaction(STORE,'readwrite').objectStore(STORE).clear();r.onsuccess=()=>res();r.onerror=()=>rej(r.error)});await publishNow();location.reload()});
 initLogin();
 })();

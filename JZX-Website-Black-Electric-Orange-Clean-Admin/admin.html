@@ -13,8 +13,8 @@
       <h1>Website Admin</h1>
       <p>Manage contact information, logos, hero images, services, projects and catalogue photos without editing code.</p>
       <div id="googleButton"></div>
-      <button id="previewLogin" class="btn primary" type="button">Open Admin Preview</button>
-      <p class="small" id="loginNote">Local administrator mode. Example administrator email: <code>admin@example.com</code>. No Firebase account is connected.</p>
+      <button id="previewLogin" class="btn primary" type="button">Sign in with Google</button>
+      <p class="small" id="loginNote">Checking Firebase Authentication…</p>
     </div>
   </div>
 
@@ -26,7 +26,7 @@
         <button data-target="hero">Hero & Logos</button>
         <button data-target="theme">Theme</button>
         <button data-target="seo">SEO & Marketing</button>
-        <button data-target="production">Local Settings</button>
+        <button data-target="production">Cloud Settings</button>
         <button data-target="traffic">Traffic Counters</button>
         <button data-target="services">Services</button>
         <button data-target="projects">Projects</button>
@@ -44,8 +44,8 @@
 
     <main class="content">
       <header class="topbar">
-        <div><h1>Website Admin</h1><p id="saveStatus">Changes are saved in this browser.</p></div>
-        <div class="top-actions"><button class="btn primary" id="publishBtn" type="button">Save Local Changes</button><button class="btn" id="exportBtn">Export Settings</button><label class="btn file-label">Import Settings<input id="importInput" type="file" accept="application/json"></label><button class="btn danger" id="resetBtn">Reset</button></div>
+        <div><h1>Website Admin</h1><p id="saveStatus">Loading shared settings from Cloud Firestore…</p></div>
+        <div class="top-actions"><button class="btn primary" id="publishBtn" type="button">Publish Changes</button><button class="btn" id="exportBtn">Export Settings</button><label class="btn file-label">Import Settings<input id="importInput" type="file" accept="application/json"></label><button class="btn danger" id="resetBtn">Reset</button></div>
       </header>
 
       <section class="panel active" data-panel="company">
@@ -162,8 +162,8 @@
       </section>
 
       <section class="panel" data-panel="production">
-        <h2>Local Settings</h2>
-        <p class="small">This clean build stores administrator edits locally in this browser. No Firebase credentials are included.</p>
+        <h2>Cloud Settings</h2>
+        <p class="small">Cloud Firestore is the shared source for production. This browser keeps only a local cache and backup copy.</p>
         <div class="status-card">
           <h3>Cloud status</h3>
           <p id="cloudStatus">Checking configuration…</p>
@@ -174,7 +174,7 @@
         </div>
         <div class="repeat-card">
           <h3>What becomes cloud-powered</h3>
-          <p>Administrator mode is local-only in this clean build. Use Export Settings to make a backup of your edits.</p>
+          <p>Published text, settings and visibility controls are stored in Cloud Firestore and loaded by the public website on every device. Export Settings remains available as a manual backup.</p>
           
         </div>
       </section>
@@ -197,7 +197,7 @@
         <div class="status-card">
           <h3>How it works</h3>
           <p>The monthly counter automatically starts a new count on the first day of each month using the America/Chicago timezone. The all-time counter keeps increasing permanently.</p>
-          <p id="trafficModeNote">Traffic counters in this clean build are stored only in this browser.</p>
+          <p id="trafficModeNote">Loading shared Cloud Firestore counters…</p>
           <button class="btn" id="refreshTrafficBtn" type="button">Refresh Counters</button>
         </div>
       </section>
@@ -243,9 +243,12 @@
     </main>
   </div>
 
-  <script src="site-defaults.js?v=20260822-device-sync-preview-final"></script>
-  <script src="admin-config.js?v=20260822-device-sync-preview-final"></script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="admin.js?v=20260822-no-storage-images"></script>
+  <script src="site-defaults.js?v=20260824-firestore-sync"></script>
+  <script src="admin-config.js?v=20260824-firestore-sync"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
+  <script src="firebase-cloud.js?v=20260824-firestore-sync"></script>
+  <script src="admin.js?v=20260824-firestore-sync"></script>
 </body>
 </html>

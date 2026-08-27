@@ -6,13 +6,15 @@ Open `index.html` for the public site and `admin.html` for the administration pa
 Without Firebase configured, Admin works as a local preview using Local Storage and IndexedDB. This is useful for design/testing on one browser.
 
 ## Production cloud mode
-This version is prepared for Firebase Google Sign-In, Firestore and Firebase Storage. Follow `FIREBASE-SETUP.md` for the one-time setup.
+Production mode uses Firebase Google Sign-In and Cloud Firestore. The Firebase web configuration and shared document paths are in `admin-config.js`.
 
 When Firebase is enabled:
 - Only the authorized Google account can enter/publish Admin changes.
 - Site settings are published to Firestore.
-- Uploaded website images are stored in Firebase Storage.
+- Images remain file-managed in the deployed `images` folder.
 - The public website loads published settings for all visitors.
+
+Cloud Firestore is authoritative in production. Local Storage is retained only as an offline cache/backup. The shared settings document is `siteConfig/public`; traffic totals use `siteTraffic/global` and `siteTraffic/monthly-YYYY-MM`.
 
 ## Admin sections
 Company, Hero & Logos, Theme, SEO & Marketing, Production & Cloud, Traffic Counters, Services, Projects, Why Choose Us, Process, Testimonials, FAQ, Catalogue, Payments and Footer.
@@ -22,6 +24,8 @@ Admin → SEO & Marketing controls title, description, canonical URL, social sha
 
 ## Security
 Never place Firebase service-account keys, payment secret/API keys, card numbers, bank passwords or private credentials in these frontend files. Use only the Firebase public web configuration and public hosted payment URLs.
+
+The included Firestore rules allow public reads only for the published site configuration, restrict configuration writes and counter reads to the verified administrator email, and limit public counter writes to atomic increments of one.
 
 ## Traffic counters
 Admin → Traffic Counters shows two visit/page-load counters:

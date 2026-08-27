@@ -7,12 +7,11 @@ Theme:
 - White: #FFFFFF
 
 Admin:
-- Firebase disabled and Firebase project credentials removed.
-- Google/Firebase login disabled.
-- Local admin button enabled.
-- Example admin email only: admin@example.com
+- Firebase production mode enabled with the existing project configuration.
+- Google/Firebase login required for the authorized administrator.
+- Cloud Firestore is the shared production source for website settings.
 - Public example contact email: contact@example.com
-- Changes are stored in the browser; Export Settings creates a backup.
+- Local Storage is retained only as cache/backup; Export Settings creates a manual backup.
 
 Images:
 - Original photos/logos removed.
@@ -21,5 +20,4 @@ Images:
 
 Validation:
 - Missing local image references: 0
-- Firebase credential/project remnants: 0
 - JavaScript syntax errors found: 0
