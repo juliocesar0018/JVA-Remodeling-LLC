@@ -895,6 +895,7 @@ img {
 ========================= */
 
 .copyright {
+    position: relative;
     display: flex;
 
     justify-content: space-between;
@@ -2754,4 +2755,18 @@ html.theme-managed .sticky-contact-bar a:first-child:hover{
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
+}
+
+.created-by-jmx {
+    position: absolute;
+    left: 24px;
+    bottom: 18px;
+
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+
+    text-align: left;
 }
