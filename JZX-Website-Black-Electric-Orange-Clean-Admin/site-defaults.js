@@ -59,15 +59,15 @@ window.JZX_DEFAULTS = {
   },
 
   "seo": {
-    "siteTitle": "JMX Remodeling LLC | Chicago Remodeling Contractor",
-    "description": "JMX Remodeling LLC provides kitchen, bathroom and complete remodeling services in Chicago and surrounding suburbs.",
+    "siteTitle": "JVA Remodeling LLC | Chicago Remodeling Contractor",
+    "description": "JVA Remodeling LLC provides kitchen, bathroom and complete remodeling services in Chicago and surrounding suburbs.",
     "keywords": "remodeling Chicago, kitchen remodeling, bathroom remodeling, cabinets, countertops, flooring, painting",
     "canonicalUrl": "",
     "socialImage": "images/test-main-logo.jpg",
     "searchConsoleVerification": "",
     "googleBusinessUrl": "",
     "googleReviewUrl": "",
-    "businessName": "JMX Remodeling LLC",
+    "businessName": "JVA Remodeling LLC",
     "businessType": "HomeAndConstructionBusiness",
     "priceRange": "$$",
     "streetAddress": "",
@@ -228,7 +228,7 @@ window.JZX_DEFAULTS = {
     }
   ],
   "footer": {
-    "brand": "JMX",
+    "brand": "JVA",
     "companyName": "REMODELING LLC",
     "tagline": "Quality, honesty and details you can see."
   },
@@ -246,7 +246,7 @@ window.JZX_DEFAULTS = {
     "cardUrl": ""
   },
   "trust": {
-    "eyebrow": "WHY CHOOSE JMX",
+    "eyebrow": "WHY CHOOSE",
     "title": "REMODELING BUILT ON TRUST",
     "intro": "Clear communication, careful workmanship and attention to detail from the first conversation to the final walkthrough.",
     "items": [
@@ -297,7 +297,7 @@ window.JZX_DEFAULTS = {
     "title": "WHAT OUR CLIENTS SAY",
     "items": [
       {
-        "quote": "Add a real customer review here from a completed JMX Remodeling project.",
+        "quote": "Add a real customer review here from a completed JVA Remodeling project.",
         "name": "Customer Name",
         "project": "Kitchen Remodeling"
       },
@@ -319,7 +319,7 @@ window.JZX_DEFAULTS = {
     "items": [
       {
         "question": "Do you offer free estimates?",
-        "answer": "Contact JMX Remodeling to discuss your project and availability for an estimate."
+        "answer": "Contact JVA Remodeling to discuss your project and availability for an estimate."
       },
       {
         "question": "What areas do you serve?",

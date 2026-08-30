@@ -1,4 +1,4 @@
-# JMX Remodeling Website — Admin + Production Edition
+# JVA Remodeling Website — Admin + Production Edition
 
 Open `index.html` for the public site and `admin.html` for the administration panel.
 

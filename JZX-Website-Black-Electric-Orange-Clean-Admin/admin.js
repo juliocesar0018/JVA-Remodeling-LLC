@@ -443,7 +443,7 @@ $('#syncCloudBtn')?.addEventListener('click',async()=>{
   }catch(e){console.error(e);status(`Cloud settings could not be loaded: ${e.message||'unknown error'}.`)}
 });
 
-$('#exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='jmx-site-settings.json';a.click();URL.revokeObjectURL(a.href)});
+$('#exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='jva-site-settings.json';a.click();URL.revokeObjectURL(a.href)});
 $('#importInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{data=deepMerge(defaults,JSON.parse(await f.text()));await publishNow();location.reload()}catch{alert('Invalid settings file.')}});
 $('#resetBtn').addEventListener('click',async()=>{if(!confirm('Reset all editable settings to the original website defaults? Images in the project images folder will not be deleted.'))return;data=clone(defaults);data.__meta={localUpdatedAt:Date.now(),publishedAt:Date.now()};localStorage.setItem(STORAGE_KEY,JSON.stringify(data));const db=await openDb();await new Promise((res,rej)=>{const r=db.transaction(STORE,'readwrite').objectStore(STORE).clear();r.onsuccess=()=>res();r.onerror=()=>rej(r.error)});await publishNow();location.reload()});
 initLogin();

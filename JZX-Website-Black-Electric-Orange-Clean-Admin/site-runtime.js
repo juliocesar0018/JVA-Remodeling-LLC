@@ -95,12 +95,12 @@
     const analytics={}; Object.keys({...dAnalytics,...rawAnalytics}).forEach(k=>analytics[k]=fieldValue(`analytics.${k}`,rawAnalytics[k],dAnalytics[k]));
     if(seo.siteTitle) document.title=seo.siteTitle;
     setMeta('metaDescription',seo.description||''); setMeta('metaKeywords',seo.keywords||''); setMeta('googleSiteVerification',seo.searchConsoleVerification||'');
-    setMeta('ogTitle',seo.siteTitle||seo.businessName||'JMX Remodeling LLC'); setMeta('ogDescription',seo.description||''); setMeta('ogImage',seo.socialImage||settings.images?.mainLogo||'');
+    setMeta('ogTitle',seo.siteTitle||seo.businessName||'JVA Remodeling LLC'); setMeta('ogDescription',seo.description||''); setMeta('ogImage',seo.socialImage||settings.images?.mainLogo||'');
     const canonical=seo.canonicalUrl||location.href.split('#')[0]; setMeta('ogUrl',canonical); const cl=document.getElementById('canonicalLink'); if(cl)cl.href=canonical;
     const sameAs=[c.facebook,c.instagram,seo.googleBusinessUrl].filter(Boolean);
     const schema={
       '@context':'https://schema.org','@type':seo.businessType||'HomeAndConstructionBusiness',
-      name:seo.businessName||'JMX Remodeling LLC',url:canonical,telephone:c.phoneDisplay||'',email:c.email||'',
+      name:seo.businessName||'JVA Remodeling LLC',url:canonical,telephone:c.phoneDisplay||'',email:c.email||'',
       areaServed:c.serviceArea||'',priceRange:seo.priceRange||'$$',sameAs
     };
     if(seo.socialImage) schema.image=seo.socialImage;
