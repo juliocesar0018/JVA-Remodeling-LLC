@@ -2818,3 +2818,17 @@ rn/* FINAL POSITION - JMX Digital Card */
     white-space: nowrap !important;
     z-index: 20 !important;
 }
+
+/* BBB SEAL NEXT TO HEADER LOGO */
+.bbb-header-seal {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+.bbb-header-seal img {
+    height: 82px;
+    width: auto;
+    display: block;
+}
